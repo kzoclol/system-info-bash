@@ -15,7 +15,7 @@ echo "Kernel Version:"
 uname -r
 
 echo "CPU Information:"
-lscpu | grep "Model Name"
+lscpu | grep -i "model name"
 
 echo "Memory Information:"
 free -h
@@ -27,4 +27,8 @@ echo "Filesystem Usage:"
 df -hT
 
 echo "Last 5 errors in system log:"
-grep -i error /var/log/syslog | tail -n 5
+if [ -f /var/log/syslog ]; then
+	grep -i error /var/log/syslog | tail -n 5
+else
+	journalctl -p err | tail -n 5
+fi
